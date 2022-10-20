@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -35,19 +36,19 @@ public class Education {
     //@Temporal(TemporalType.DATE)
     private java.sql.Date start_date;
 
-    @Size(min = 1900, message = "the starting year should be >= 1900")
+    @Range(min = 1900, message = "the starting year should be >= 1900")
     private Integer start_year;
 
-    @Size(min = 1, max = 12, message = "the starting month should be between 1 and 12")
+    @Range(min = 1, max = 12, message = "the starting month should be between 1 and 12")
     private Integer start_month;
 
     //@Temporal(TemporalType.DATE)
     private java.sql.Date finish_date;
 
-    @Size(min = 1900, message = "the year should be >= 1900")
+    @Range(min = 1900, message = "the year should be >= 1900")
     private Integer finish_year;
 
-    @Size(min = 1, max = 12, message = "the month should be between 1 and 12")
+    @Range(min = 1, max = 12, message = "the month should be between 1 and 12")
     private Integer finish_month;
 
     @NotNull(message = "User field cannot be null")
