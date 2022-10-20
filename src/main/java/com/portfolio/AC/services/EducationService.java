@@ -29,6 +29,14 @@ public class EducationService {
         }
     }
 
+    public  List<Education> findByUserId(Long id) throws Exception {
+        try {
+            return educationRepository.findByUserId(id);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
     public void saveEducation(Education education) throws Exception {
         try {
             educationRepository.save(education);

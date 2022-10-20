@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/education")
 public class EducationController {
@@ -39,6 +41,21 @@ public class EducationController {
         }
     }
 
+    @GetMapping("/user/{user_id}")
+    public ResponseEntity<?> getEduByUser(@PathVariable Long user_id) {
+        try {
+            if (!userService.existUserById(user_id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\":\"user not found\"}");
+            }
+
+            List<Education> educations = educationService.findByUserId(user_id);
+
+            return ResponseEntity.status(HttpStatus.OK).body(educations);
+        } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
     @PostMapping("")
     public ResponseEntity<?> saveEducation(@Valid @RequestBody Education education){
         try {
@@ -54,10 +71,26 @@ public class EducationController {
         }
     }
 
-    @PutMapping("/edu/{id}")
-    public ResponseEntity<?> updateEducation(@RequestBody Education education, @PathVariable Long id){
+    @PostMapping("/user/{user_id}")
+    public ResponseEntity<?> createEducation(@PathVariable(value = "user_id") Long user_id,
+                                       @RequestBody Education educationReq) throws Exception {
         try {
-            Optional<User> optionalUser = userService.getUserById(education.getUser().getId());
+            Optional<User> optionalUser = userService.getUserById(user_id);
+            if (!optionalUser.isPresent()){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\":\"user not found\"}");
+            }
+            educationReq.setUser(optionalUser.get());
+            educationService.saveEducation(educationReq);
+            return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"education created successfully\"}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/user/{user_id}/edu/{id}")
+    public ResponseEntity<?> updateEducation(@RequestBody Education education, @PathVariable Long id, @PathVariable Long user_id){
+        try {
+            Optional<User> optionalUser = userService.getUserById(user_id);
             if (!optionalUser.isPresent()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\":\"user not found\"}");
             }
