@@ -32,7 +32,7 @@ public class Education {
     @Size(min = 3, max = 1500, message = "should has min 3 chars and max 1500 chars")
     private String description;
 
-    @NotNull
+    //@NotNull
     //@Temporal(TemporalType.DATE)
     private java.sql.Date start_date;
 
