@@ -89,7 +89,7 @@ public class SkillController {
     }
   }
 
-  @PutMapping("/user/{user_id}/exp/{id}")
+  @PutMapping("/user/{user_id}/skill/{id}")
   public ResponseEntity<?> updateSkill(@RequestBody Skill skill, @PathVariable Long id, @PathVariable Long user_id){
     try {
 //            Experience current = experienceService.findById(id);
