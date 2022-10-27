@@ -1,5 +1,6 @@
 package com.portfolio.AC.services;
 
+import com.portfolio.AC.models.Experience;
 import com.portfolio.AC.models.Skill;
 import com.portfolio.AC.repository.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,14 @@ public class SkillService {
   public Optional<Skill> getSkillById(Long id) throws Exception {
     try {
       return skillRepository.findById(id);
+    } catch (Exception e) {
+      throw new Exception(e.getMessage());
+    }
+  }
+
+  public List<Skill> findByUserId(Long id) throws Exception {
+    try {
+      return skillRepository.findByUserId(id);
     } catch (Exception e) {
       throw new Exception(e.getMessage());
     }

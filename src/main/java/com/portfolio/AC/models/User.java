@@ -57,9 +57,9 @@ public class User {
 //  @JoinColumn(name = "user_id")
 //  private List<Experience> experiences;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_id")
-  private List<Education> educations;
+  //@OneToMany(cascade = CascadeType.ALL)
+  //@JoinColumn(name = "user_id")
+  //private List<Education> educations;
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "user_id")

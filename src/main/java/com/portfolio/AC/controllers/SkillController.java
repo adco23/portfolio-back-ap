@@ -1,20 +1,28 @@
 package com.portfolio.AC.controllers;
 
+import com.portfolio.AC.models.Experience;
 import com.portfolio.AC.models.Skill;
+import com.portfolio.AC.models.User;
 import com.portfolio.AC.services.SkillService;
+import com.portfolio.AC.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/skills")
 public class SkillController {
   @Autowired
   public SkillService skillService;
+
+  @Autowired
+  public UserService userService;
 
   @GetMapping("")
   public ResponseEntity<?> skillList(){
@@ -38,6 +46,21 @@ public class SkillController {
     }
   }
 
+  @GetMapping("/user/{user_id}")
+  public ResponseEntity<?> getSkillsByUser(@PathVariable Long user_id) {
+    try {
+      if (!userService.existUserById(user_id)) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\":\"user not found\"}");
+      }
+
+      List<Skill> skills = skillService.findByUserId(user_id);
+
+      return ResponseEntity.status(HttpStatus.OK).body(skills);
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+  }
+
   @PostMapping("")
   public ResponseEntity<?> saveSkill(@Valid @RequestBody Skill skill){
     try {
@@ -48,27 +71,48 @@ public class SkillController {
     }
   }
 
-  @PutMapping("/skill/{id}")
-  public ResponseEntity<?> updateSkill(@PathVariable Long id, @RequestBody Skill skill){
+  @PostMapping("/user/{user_id}")
+  public ResponseEntity<?> createSkill (
+      @PathVariable(value = "user_id") Long user_id,
+      @RequestBody Skill skillReq
+  ) throws Exception {
     try {
-//            User currentUser = userService.getUserById(id);
-//            currentUser.setEmail(user.getEmail());
-//            currentUser.setPassword(user.getPassword());
-//            currentUser.setFirst_name(user.getFirst_name());
-//            currentUser.setLast_name(user.getLast_name());
-//            currentUser.setTitle(user.getTitle());
-//            currentUser.setAbout(user.getAbout());
-//            currentUser.setImg(user.getImg());
-//            userService.saveUser(currentUser);
-//            return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"user changed successfully\"}");
+      Optional<User> optionalUser = userService.getUserById(user_id);
+      if (!optionalUser.isPresent()){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\":\"user not found\"}");
+      }
+      skillReq.setUser(optionalUser.get());
+      skillService.saveSkill(skillReq);
+      return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"skill created successfully\"}");
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+  }
 
-      Optional<Skill> optionalSkill = skillService.getSkillById(id);
-      if (!optionalSkill.isPresent()){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\":\"skill not found\"}");
+  @PutMapping("/user/{user_id}/exp/{id}")
+  public ResponseEntity<?> updateSkill(@RequestBody Skill skill, @PathVariable Long id, @PathVariable Long user_id){
+    try {
+//            Experience current = experienceService.findById(id);
+//            current.setPosition(exp.getPosition());
+//            current.setDescription(exp.getDescription());
+//            current.setCompany(exp.getCompany());
+//            current.setCompany_img(exp.getCompany_img());
+//            current.setStart_date(exp.getStart_date());
+//            current.setFinish_date((exp.getFinish_date()));
+//            experienceService.saveExperience(current);
+      Optional<User> optionalUser = userService.getUserById(user_id);
+      if (!optionalUser.isPresent()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\":\"user not found\"}");
       }
 
+      Optional<Skill> optionalSkill = skillService.getSkillById(id);
+      if (!optionalSkill.isPresent()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\":\"skill not found\"}");
+      }
+      skill.setUser(optionalUser.get());
       skill.setId(optionalSkill.get().getId());
       skillService.saveSkill(skill);
+
       return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\":\"skill changed successfully\"}");
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
