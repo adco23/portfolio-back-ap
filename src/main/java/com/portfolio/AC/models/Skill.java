@@ -31,7 +31,7 @@ public class Skill {
   @NotEmpty
   private String name;
 
-  private Integer level;
+  private String level;
 
   @Enumerated(EnumType.STRING)
   private Skill_type type;
