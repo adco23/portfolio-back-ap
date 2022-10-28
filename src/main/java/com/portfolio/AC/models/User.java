@@ -61,9 +61,9 @@ public class User {
   //@JoinColumn(name = "user_id")
   //private List<Education> educations;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_id")
-  private List<Project> projects;
+//  @OneToMany(cascade = CascadeType.ALL)
+//  @JoinColumn(name = "user_id")
+//  private List<Project> projects;
 
 //  @OneToOne(cascade = CascadeType.ALL)
 //  @JoinColumn(name = "profile_id", referencedColumnName = "id")

@@ -1,5 +1,6 @@
 package com.portfolio.AC.services;
 
+import com.portfolio.AC.models.Experience;
 import com.portfolio.AC.models.Project;
 import com.portfolio.AC.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,14 @@ public class ProjectService {
     public void saveProject(Project project) throws Exception {
         try {
             projectRepository.save(project);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public List<Project> findByUserId(Long id) throws Exception {
+        try {
+            return projectRepository.findByUserId(id);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
