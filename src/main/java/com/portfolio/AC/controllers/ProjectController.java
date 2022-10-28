@@ -114,7 +114,7 @@ public class ProjectController {
     }
 
     @PutMapping("/user/{user_id}/proj/{id}")
-    public ResponseEntity<?> updateExp(@RequestBody Project project, @PathVariable Long id, @PathVariable Long user_id){
+    public ResponseEntity<?> updateProject(@RequestBody Project project, @PathVariable Long id, @PathVariable Long user_id){
         try {
             Optional<User> optionalUser = userService.getUserById(user_id);
             if (!optionalUser.isPresent()) {
