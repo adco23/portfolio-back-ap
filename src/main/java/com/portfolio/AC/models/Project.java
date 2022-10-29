@@ -28,7 +28,7 @@ public class Project {
     @Size(min = 3, max = 100, message = "should has min 3 chars and max 100 chars")
     private String title;
 
-    @Size(min = 3, max = 1500, message = "should has min 3 chars and max 1500 chars")
+    @Size(max = 150, message = "should has max 150 chars")
     private String description;
 
     private String img;
