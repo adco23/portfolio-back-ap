@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
-@CrossOrigin(origins = "${FRONT_URL}")
+@CrossOrigin(origins = { "https://portfolio-front-adco.vercel.app", "http://localhost:4200"})
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
