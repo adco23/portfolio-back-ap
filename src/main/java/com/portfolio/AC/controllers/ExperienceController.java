@@ -7,6 +7,7 @@ import com.portfolio.AC.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -56,6 +57,7 @@ public class ExperienceController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<?> saveExp(@RequestBody Experience exp){
         try {
@@ -71,6 +73,7 @@ public class ExperienceController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/user/{user_id}")
     public ResponseEntity<?> createExp(@PathVariable(value = "user_id") Long user_id,
                                                  @RequestBody Experience experienceReq) throws Exception {
@@ -87,6 +90,7 @@ public class ExperienceController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/user/{user_id}/exp/{id}")
     public ResponseEntity<?> updateExp(@RequestBody Experience exp, @PathVariable Long id, @PathVariable Long user_id){
         try {
@@ -117,6 +121,7 @@ public class ExperienceController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/exp/{id}")
     public ResponseEntity<?> deleteExp(@PathVariable Long id){
         try {

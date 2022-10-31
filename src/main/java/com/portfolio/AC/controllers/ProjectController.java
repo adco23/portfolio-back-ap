@@ -10,6 +10,7 @@ import com.portfolio.AC.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -59,6 +60,7 @@ public class ProjectController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<?> saveProject(@RequestBody Project project){
         try {
@@ -74,6 +76,7 @@ public class ProjectController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/user/{user_id}")
     public ResponseEntity<?> createProject(
         @PathVariable(value = "user_id") Long user_id,
@@ -91,6 +94,7 @@ public class ProjectController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/project/{id}")
     public ResponseEntity<?> updateProject(@RequestBody Project project, @PathVariable Long id){
         try {
@@ -113,6 +117,7 @@ public class ProjectController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/user/{user_id}/proj/{id}")
     public ResponseEntity<?> updateProject(@RequestBody Project project, @PathVariable Long id, @PathVariable Long user_id){
         try {
@@ -135,6 +140,7 @@ public class ProjectController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/project/{id}")
     public ResponseEntity<?> deleteProject(@PathVariable Long id){
         try {

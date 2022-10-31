@@ -6,6 +6,7 @@ import com.portfolio.AC.security.service.UserDetailsImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
@@ -66,6 +67,12 @@ public class MainSecurity {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
         .authorizeRequests()
+        .antMatchers(HttpMethod.GET, "/").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/v1/users").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/v1/education").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/v1/skills").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/v1/projects").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/v1/experience").permitAll()
         .antMatchers("/auth/**").permitAll()
         .anyRequest().authenticated()
         .and()

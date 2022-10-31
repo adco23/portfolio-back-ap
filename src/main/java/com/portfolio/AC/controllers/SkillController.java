@@ -8,6 +8,7 @@ import com.portfolio.AC.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -61,6 +62,7 @@ public class SkillController {
     }
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("")
   public ResponseEntity<?> saveSkill(@Valid @RequestBody Skill skill){
     try {
@@ -71,6 +73,7 @@ public class SkillController {
     }
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/user/{user_id}")
   public ResponseEntity<?> createSkill (
       @PathVariable(value = "user_id") Long user_id,
@@ -89,6 +92,7 @@ public class SkillController {
     }
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PutMapping("/user/{user_id}/skill/{id}")
   public ResponseEntity<?> updateSkill(@RequestBody Skill skill, @PathVariable Long id, @PathVariable Long user_id){
     try {
@@ -119,6 +123,7 @@ public class SkillController {
     }
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @DeleteMapping("/skill/{id}")
   public ResponseEntity<?> deleteSkill(@PathVariable Long id){
     try {

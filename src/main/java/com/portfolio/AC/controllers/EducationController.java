@@ -7,6 +7,7 @@ import com.portfolio.AC.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -56,6 +57,7 @@ public class EducationController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<?> saveEducation(@Valid @RequestBody Education education){
         try {
@@ -71,6 +73,7 @@ public class EducationController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/user/{user_id}")
     public ResponseEntity<?> createEducation(@PathVariable(value = "user_id") Long user_id,
                                        @RequestBody Education educationReq) throws Exception {
@@ -87,6 +90,7 @@ public class EducationController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/user/{user_id}/edu/{id}")
     public ResponseEntity<?> updateEducation(@RequestBody Education education, @PathVariable Long id, @PathVariable Long user_id){
         try {
@@ -109,6 +113,7 @@ public class EducationController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/edu/{id}")
     public ResponseEntity<?> deleteEducation(@PathVariable Long id){
         try {
